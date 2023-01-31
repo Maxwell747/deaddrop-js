@@ -1,0 +1,8 @@
+| 2023:1:31:9:18:52:713 | bob | RECEIVED MESSAGES | SUCCESS |
+| 2023:1:31:9:19:17:256 | bob | READ MESSAGES | SUCCESS |
+| 2023:1:31:9:21:34:444 | bob | CREATE NEW USER tom | SUCCESS |
+| 2023:1:31:9:22:11:796 | bob | READ MESSAGES | Error: Unable to authenticate |
+| 2023:1:31:9:22:26:167 | oiygl | READ MESSAGES | TypeError: Cannot read properties of undefined (reading 'id') |
+| 2023:1:31:9:23:13:892 | asdjdv | RECEIVED MESSAGES | TypeError: Cannot read properties of undefined (reading 'id') |
+| 2023:1:31:9:24:6:417 | bob | CREATE NEW USER | Error: Unable to authenticate user |
+| 2023:1:31:9:24:16:50 | asdv | CREATE NEW USER | TypeError: Cannot read properties of undefined (reading 'hash') |

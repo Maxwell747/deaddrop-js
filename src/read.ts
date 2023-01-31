@@ -1,5 +1,6 @@
 import { getMessagesForUser, userExists } from "./db";
 import { authenticate } from "./session";
+import { decrypt, log } from "./index";
 
 export async function readMessages(user: string) {
     try {
@@ -12,10 +13,12 @@ export async function readMessages(user: string) {
         }
 
         getMessagesForUser(user).then((messages) => {
-            messages.forEach((e: string) => console.log(e, "\n"));
+            messages.forEach((e: string) => console.log(decrypt(e), "\n"));
+            log(user, "READ MESSAGES", "SUCCESS");
         });
 
     } catch (error) {
+        log(user, "READ MESSAGES", `${error}`);
         console.error("Error occured during reading.", error);
     }
 }
