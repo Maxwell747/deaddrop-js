@@ -1,5 +1,5 @@
 import readline from "readline";
-import { saveMessage, userExists } from "./db";
+import { saveMessage, userExists, getPublicKey } from "./db";
 import { encrypt, log } from "./index";
 
 export const sendMessage = async (user: string) => {
@@ -9,14 +9,16 @@ export const sendMessage = async (user: string) => {
         }
 
         getUserMessage().then(async (message) => {
-            await saveMessage(message, user);
+            let key = await getPublicKey(user);
+            let e = encrypt(message, key);
+            await saveMessage(e, user);
             log(user, `RECEIVED MESSAGES`, `SUCCESS`);
         });
 
 
-    } catch (error) {
-        log(user, `RECEIVED MESSAGES`, `${error}`);
-        console.error("Error occured creating a new user.", error);
+    } catch (Error) {
+        log(user, `RECEIVED MESSAGES`, `${Error}`);
+        console.error("Error occurred sending message.", Error);
     }
 }
 
@@ -24,5 +26,5 @@ const getUserMessage = async (): Promise<string> => {
     let rl = readline.createInterface(process.stdin, process.stdout);
     let message: string = await new Promise(resolve => rl.question("Enter your message: ", resolve));
     rl.close();
-    return encrypt(message);
+    return message;
 }

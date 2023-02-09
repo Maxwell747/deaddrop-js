@@ -7,7 +7,8 @@ const schema: string = `
 CREATE TABLE Users (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     user TINYTEXT NOT NULL,
-    hash TEXT NOT NULL
+    hash TEXT NOT NULL,
+    publicKey TEXT NOT NULL
 );
 
 CREATE TABLE Messages (

@@ -4,6 +4,7 @@ export {
     getUserPassHash,
     setUserPassHash,
     noUsers,
+    getPublicKey,
 } from "./user";
 
 export {

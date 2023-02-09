@@ -8,7 +8,7 @@ export const userExists = async (user: string): Promise<boolean> => {
         ':user': user,
     });
 
-    return typeof result.id === "number";
+    return (result ? true: false);
 }
 
 export const getUserId = async (user: string): Promise<number> => {
@@ -37,22 +37,36 @@ export const getUserPassHash = async (user: string): Promise<string> => {
     return result.hash;
 }
 
-export const setUserPassHash = async (user: string, hash: string) => {
+export const setUserPassHash = async (user: string, hash: string, publicKey: string) => {
     let db = await connect();
 
     await db.run(`
         INSERT INTO Users
-            (user, hash)
+            (user, hash, publicKey)
         VALUES
-            (:user, :hash);
+            (:user, :hash, :publicKey);
     `, {
         ":user": user,
         ":hash": hash,
+        ":publicKey": publicKey,
     });
+}
+
+export const getPublicKey = async (user: string): Promise<string> => {
+    let db = await connect();
+
+    let result = await db.get(`
+        SELECT publicKey FROM Users
+        WHERE user = :user;
+    `, {
+        ":user": user,
+    });
+
+    return result.publicKey;
 }
 
 export const noUsers = async (): Promise<boolean> => {
     let db = await connect();
     let result = await db.get("SELECT COUNT(*) FROM Users;");
-    return Promise.resolve(result['COUNT(*)'] === 0);
+    return ((result["COUNT(*)"] === 0) ? true : false);
 }

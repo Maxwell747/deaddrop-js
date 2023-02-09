@@ -2,9 +2,9 @@ import readline from "readline";
 import bcrypt from "bcryptjs";
 import { getUserPassHash, noUsers } from "./db";
 
-export const getPassword = async (): Promise<string> => {
+export const getPassword = async (): Promise<string[]> => {
     return readPassIn("Password: ")
-        .then((pass) => saltAndHash(pass));
+        .then((pass) => [saltAndHash(pass), pass]);
 };
 
 const saltAndHash = (pass: string): string => {
@@ -13,16 +13,16 @@ const saltAndHash = (pass: string): string => {
     return bcrypt.hashSync(pass, salt);
 };
 
-export const authenticate = async (user: string): Promise<boolean> => {
+export const authenticate = async (user: string): Promise<(string | boolean)[]> => {
     // bypass authentication if no users have been created
     if ((await noUsers())) {
-        return Promise.resolve(true);
+        return [true, ""];
     }
 
     let pass = await readPassIn("Password: ")
     let hash = await getUserPassHash(user);
 
-    return bcrypt.compare(pass.toString(), hash.toString());
+    return [await bcrypt.compare(pass.toString(), hash.toString()), pass];
 };
 
 // from the impressive @sdgfsdh at https://stackoverflow.com/questions/24037545/how-to-hide-password-in-the-nodejs-console

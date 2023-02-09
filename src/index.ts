@@ -7,22 +7,27 @@ import { newUser } from "./new";
 import { readMessages } from "./read";
 import { sendMessage } from "./send";
 
-const CryptoJS = require("crypto-js");
-const fs = require('fs');
+const cryptico = require('cryptico');
+const fs = require("fs");
 
-let key = fs.readFileSync("./key.txt", "utf-8").toString();
 
-export const encrypt = (text: string) => {
-    return CryptoJS.AES.encrypt(text, key).toString();
+export const genKeys = (pass: string) => {
+    let privateKey = cryptico.generateRSAKey(pass, 1024);
+    let publicKey = cryptico.publicKeyString(privateKey);
+    return {privateKey, publicKey};
 };
 
-export const decrypt = (text: string) => {
-    return CryptoJS.AES.decrypt(text, key).toString(CryptoJS.enc.Utf8);
+export const encrypt = (message: string, publicKey: string) => {
+    return cryptico.encrypt(message, publicKey).cipher;
+};
+
+export const decrypt = (encryptedMessage: string, privateKey: string) => {
+    return cryptico.decrypt(encryptedMessage, privateKey).plaintext;
 };
 
 export const log = (user: string, action: string, status: string) => {
     let d = new Date();
-    let l = `| ${d.getFullYear()}:${d.getMonth()+1}:${d.getDate()}:${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}:${d.getMilliseconds()} | ${user} | ${action} | ${status} |\n`;
+    let l = `| ${d.getFullYear()}:${d.getMonth() + 1}:${d.getDate()}:${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}:${d.getMilliseconds()} | ${user} | ${action} | ${status} |\n`;
     fs.appendFileSync("./log.txt", l);
 };
 

@@ -1,6 +1,6 @@
 import { getMessagesForUser, userExists } from "./db";
 import { authenticate } from "./session";
-import { decrypt, log } from "./index";
+import { decrypt, log, genKeys } from "./index";
 
 export async function readMessages(user: string) {
     try {
@@ -8,17 +8,21 @@ export async function readMessages(user: string) {
             throw new Error("User does not exist");
         }
 
-        if (!await authenticate(user)) {
+        let auth = await authenticate(user);
+
+        if (!auth[0]) {
             throw new Error("Unable to authenticate");
         }
 
+        let keys = genKeys(auth[1].toString());
+
         getMessagesForUser(user).then((messages) => {
-            messages.forEach((e: string) => console.log(decrypt(e), "\n"));
+            messages.forEach((e: string) => console.log(decrypt(e, keys.privateKey), "\n"));
             log(user, "READ MESSAGES", "SUCCESS");
         });
 
-    } catch (error) {
-        log(user, "READ MESSAGES", `${error}`);
-        console.error("Error occured during reading.", error);
+    } catch (Error) {
+        log(user, "READ MESSAGES", `${Error}`);
+        console.error("Error occured during reading.", Error);
     }
 }
