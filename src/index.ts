@@ -10,7 +10,6 @@ import { sendMessage } from "./send";
 const cryptico = require('cryptico');
 const fs = require("fs");
 
-
 export const genKeys = (pass: string) => {
     let privateKey = cryptico.generateRSAKey(pass, 1024);
     let publicKey = cryptico.publicKeyString(privateKey);
@@ -79,11 +78,15 @@ if (options.new) {
         }
     });
 } else if (options.send) {
-    let user = validateInputString(options.to);
-    if (user === "") {
+    let to = validateInputString(options.to);
+    let sender = validateInputString(options.user);
+    if (to === "") {
         console.error("Please specify a to target when running in send mode");
+    }
+    else if (sender === ""){
+        console.error("Please specify a user target when running in send mode");
     } else {
-        sendMessage(user);
+        sendMessage(sender, to);
     }
 } else if (options.read) {
     let user = validateInputString(options.user);

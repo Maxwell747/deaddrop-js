@@ -4,6 +4,8 @@ import { noUsers, setUserPassHash, userExists } from "./db";
 import { authenticate, getPassword } from "./session";
 import { log, genKeys } from "./index";
 
+const CryptoJS = require("crypto-js");
+
 export const newUser = async (user: string) => {
     try {
         if ((!await noUsers()) && (!await userExists(user))) {
@@ -18,8 +20,8 @@ export const newUser = async (user: string) => {
 
         let newUser = await getNewUsername();
         let newPassHash = await getPassword();
-        let keys = genKeys(newPassHash[1].toString());
-
+        let pass = newPassHash[1].toString();
+        let keys = genKeys(pass);
         await setUserPassHash(newUser, newPassHash[0], keys.publicKey);
         log(user, `CREATE NEW USER ${newUser}`, `SUCCESS`);
 

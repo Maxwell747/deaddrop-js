@@ -1,12 +1,16 @@
-| 2023:2:9:8:57:9:907 | alice | CREATE NEW USER alice | SUCCESS |
-| 2023:2:9:8:57:30:103 | alice | CREATE NEW USER bob | SUCCESS |
-| 2023:2:9:8:57:44:995 | carl | CREATE NEW USER | Error: User not recognized |
-| 2023:2:9:8:58:22:996 | alice | RECEIVED MESSAGES | SUCCESS |
-| 2023:2:9:8:58:42:419 | alice | READ MESSAGES | SUCCESS |
-| 2023:2:9:8:58:59:729 | bob | RECEIVED MESSAGES | SUCCESS |
-| 2023:2:9:8:59:11:187 | bob | READ MESSAGES | SUCCESS |
-| 2023:2:9:8:59:34:295 | alice | READ MESSAGES | Error: Unable to authenticate |
-| 2023:2:9:8:59:55:569 | carl | READ MESSAGES | Error: User does not exist |
-| 2023:2:9:9:0:28:89 | carl | RECEIVED MESSAGES | Error: Destination user does not exist |
-| 2023:2:9:9:0:50:671 | alice | CREATE NEW USER | Error: Unable to authenticate user |
-| 2023:2:9:9:2:2:874 | bob | READ MESSAGES | SUCCESS |
+| 2023:3:25:21:45:0:645 | alice | CREATE NEW USER alice | SUCCESS |
+| 2023:3:25:21:45:14:446 | alice | CREATE NEW USER bob | SUCCESS |
+| 2023:3:25:21:45:45:341 | bob | SENT MESSAGES TO alice | SUCCESS |
+| 2023:3:25:21:45:56:596 | bob | SENT MESSAGES TO alice | SUCCESS |
+| 2023:3:25:21:48:24:46 | alice | READ MESSAGES | Message could not be authenticated |
+| 2023:3:25:21:48:24:281 | alice | READ MESSAGES | Message could not be authenticated |
+| 2023:3:25:21:48:24:283 | alice | READ MESSAGES | SUCCESS |
+| 2023:3:25:21:49:41:629 | alice | READ MESSAGES | A Message Has Been Altered |
+| 2023:3:25:21:49:41:874 | alice | READ MESSAGES | Message could not be authenticated |
+| 2023:3:25:21:49:41:876 | alice | READ MESSAGES | SUCCESS |
+| 2023:3:25:21:50:16:791 | alice | READ MESSAGES | A Message Has Been Altered |
+| 2023:3:25:21:50:17:35 | alice | READ MESSAGES | SUCCESS |
+| 2023:3:25:21:57:10:51 | bob | SENT MESSAGES TO alice | SUCCESS |
+| 2023:3:25:21:57:16:793 | alice | READ MESSAGES | A Message Has Been Altered |
+| 2023:3:25:21:57:16:803 | alice | READ MESSAGES | Message could not be authenticated |
+| 2023:3:25:21:57:16:811 | alice | READ MESSAGES | SUCCESS |

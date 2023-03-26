@@ -21,6 +21,10 @@ Then run `node dist/index.js --new --user <username here>` and you will be promp
 
 Data gets stored into the local database file dd.db. This file will not by synched to git repos. Delete this file if you don't set up a user properly on the first go
 
+## MAC Strategy
+
+The user creates a new secret using a hashed combination of their password, and the recipients public key. This is used to create an HMAC for the message, which contains the sender information. The sender, message, HMAC and secret are encrypted all together. The secret can only be created by the sender because of password, and is unique for each recipient because their public key is used. Since the sender is also part of the HMAC there is no way of spoofing the sender once the HMAC has been generated, if this is attempted the recipient is made aware that the message is not authentic. If an attacker wanted to alter a message, they would have to do it before the message is sent, since they can't alter the encrypted message in the database. Once the HMAC is generated if anything about the sender or message changes it will be detected.
+
 ## Logging Strategy
 
 Logs are stored in a file log.txt. Logs are in the form of:

@@ -22,18 +22,20 @@ export const getMessagesForUser = async (user: string): Promise<string[]> => {
     return messages;
 }
 
-export const saveMessage = async (message: string, recipient: string) => {
+export const saveMessage = async (message: string, recipient: string, sender: string) => {
     let db = await connect();
 
     await db.run(`
         INSERT INTO Messages 
-            (recipient, data)
+            (recipient, sender, data)
         VALUES (
             (SELECT id FROM Users WHERE user = :user),
+            (SELECT id FROM Users WHERE user = :sender),
             :message
         )
     `, {
         ":user": recipient,
+        ":sender": sender,
         ":message": message,
     });
 }
